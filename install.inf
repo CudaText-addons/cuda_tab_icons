@@ -1,0 +1,11 @@
+[info]
+title=Tab Icons
+desc=Shows file-type icons on tab headers (same icons, which Project Manager shows)
+type=cudatext-plugin
+subdir=cuda_tab_icons
+homepage=
+
+[item1]
+section=events
+events=on_lexer
+
