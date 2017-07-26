@@ -52,10 +52,14 @@ class Command:
         return n
 
 
-    def update_icon(self, ed_self):
+    def update_icon(self, ed_self, is_picture):
 
         icon = -1
-        lexer = ed_self.get_prop(PROP_LEXER_FILE)
+        if is_picture:
+            lexer = '_img'
+        else:
+            lexer = ed_self.get_prop(PROP_LEXER_FILE)
+
         if lexer:
             icon = self.icon_get(lexer, icon)
 
@@ -66,5 +70,13 @@ class Command:
 
         if not API_OK:
             return
-        self.update_icon(ed_self)
+        self.update_icon(ed_self, False)
+
+    def on_open(self, ed_self):
+
+        #handle on_open only for pictures
+        fn = ed_self.get_filename()
+        #print('fn', fn)
+        if fn=='?':
+            self.update_icon(ed_self, True)
 

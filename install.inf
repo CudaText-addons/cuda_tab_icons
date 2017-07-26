@@ -7,5 +7,5 @@ homepage=
 
 [item1]
 section=events
-events=on_lexer
+events=on_lexer,on_open
 
