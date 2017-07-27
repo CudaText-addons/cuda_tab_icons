@@ -68,15 +68,15 @@ class Command:
 
     def on_lexer(self, ed_self):
 
-        if not API_OK:
-            return
+        if not API_OK: return
         self.update_icon(ed_self, False)
 
     def on_open(self, ed_self):
 
         #handle on_open only for pictures
+        if not API_OK: return
+
         fn = ed_self.get_filename()
-        #print('fn', fn)
         if fn=='?':
             self.update_icon(ed_self, True)
 
