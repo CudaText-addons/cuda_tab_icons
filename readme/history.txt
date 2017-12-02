@@ -1,4 +1,8 @@
 
+2017.12.02
++ support lite lexers (with ^ suffix)
++ added homepage link to install.inf
+
 2017.07.26
 + show icons for picture files too
 

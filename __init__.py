@@ -3,15 +3,8 @@ import re
 import json
 from cudatext import *
 
-API_OK = app_api_version()>='1.0.190'
-
 class Command:
-
     def __init__(self):
-
-        if not API_OK:
-            print('Plugin "Tab Icons" requires CudaText 1.14+')
-            return
 
         self.imglist = app_proc(PROC_GET_TAB_IMAGELIST, '')
         self.icon_theme = 'vscode_16x16'
@@ -59,6 +52,9 @@ class Command:
             lexer = '_img'
         else:
             lexer = ed_self.get_prop(PROP_LEXER_FILE)
+            #support lite lexers
+            if lexer.endswith(' ^'):
+                lexer = lexer[:-2]
 
         if lexer:
             icon = self.icon_get(lexer, icon)
@@ -68,15 +64,11 @@ class Command:
 
     def on_lexer(self, ed_self):
 
-        if not API_OK: return
         self.update_icon(ed_self, False)
 
     def on_open(self, ed_self):
 
         #handle on_open only for pictures
-        if not API_OK: return
-
         fn = ed_self.get_filename()
         if fn=='?':
             self.update_icon(ed_self, True)
-
