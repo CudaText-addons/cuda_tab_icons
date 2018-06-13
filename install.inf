@@ -8,5 +8,5 @@ api=1.0.190
 
 [item1]
 section=events
-events=on_lexer,on_open
+events=on_lexer,on_open,on_start
 

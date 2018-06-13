@@ -72,3 +72,7 @@ class Command:
         fn = ed_self.get_filename()
         if fn=='?':
             self.update_icon(ed_self, True)
+            
+    def on_start(self, ed_self):
+        for h in ed_handles():
+            self.update_icon(Editor(h), False)
