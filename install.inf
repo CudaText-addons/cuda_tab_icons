@@ -10,3 +10,8 @@ api=1.0.190
 section=events
 events=on_lexer,on_open
 
+[item2]
+section=commands
+caption=Tab Icons\Config
+method=config
+menu=o

@@ -3,11 +3,13 @@ import re
 import json
 from cudatext import *
 
+FN_INI = 'plugins.ini'
+
 class Command:
     def __init__(self):
 
         self.imglist = app_proc(PROC_GET_TAB_IMAGELIST, '')
-        self.icon_theme = 'vscode_16x16'
+        self.load_options()
 
         #try:
         #    nsize = int(re.match('^\w+x(\d+)$', self.icon_theme).group(1))
@@ -18,6 +20,14 @@ class Command:
         self.icon_dir = os.path.join(app_path(APP_DIR_DATA), 'filetypeicons', self.icon_theme)
         if not os.path.isdir(self.icon_dir):
             self.icon_dir = os.path.join(app_path(APP_DIR_DATA), 'filetypeicons', 'vscode_16x16')
+
+        m = re.match(r'.+_(\d+)x\d+', self.icon_theme, 0)
+        size = int(m.groups(1)[0])
+        if size!=16:
+            imagelist_proc(self.imglist, IMAGELIST_SET_SIZE, (size, size))
+
+        if self.icon_theme!='vscode_16x16':
+            print('Tab Icons: using theme '+self.icon_theme)
 
         self.icon_json = os.path.join(self.icon_dir, 'icons.json')
         self.icon_json_dict = json.loads(open(self.icon_json).read())
@@ -72,3 +82,19 @@ class Command:
         fn = ed_self.get_filename()
         if fn=='?':
             self.update_icon(ed_self, True)
+
+
+    def config(self):
+
+        self.save_options()
+
+        fn = app_path(APP_DIR_SETTINGS)+os.sep+FN_INI
+        file_open(fn)
+
+    def save_options(self):
+
+        ini_write(FN_INI, 'tab_icons', 'icons', self.icon_theme)
+
+    def load_options(self):
+
+        self.icon_theme = ini_read(FN_INI, 'tab_icons', 'icons', 'vscode_16x16')
