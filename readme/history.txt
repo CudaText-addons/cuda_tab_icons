@@ -1,4 +1,7 @@
 
+2018.12.07
++ add: option for icons theme. Menu item "Options / Settings-plugins / Tab Icons / Config". Value in [tab_icons] must be the name of folder in "data/filetypeicons". Install any addon of kind "filetypeicons" to add such folder.
+
 2017.12.02
 + support lite lexers (with ^ suffix)
 + added homepage link to install.inf
