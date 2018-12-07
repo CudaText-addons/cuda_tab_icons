@@ -11,20 +11,15 @@ class Command:
         self.imglist = app_proc(PROC_GET_TAB_IMAGELIST, '')
         self.load_options()
 
-        #try:
-        #    nsize = int(re.match('^\w+x(\d+)$', self.icon_theme).group(1))
-        #    imagelist_proc(self.imglist, IMAGELIST_SET_SIZE, (nsize, nsize))
-        #except:
-        #    print('Incorrect theme name, must be nnnnnn_NNxNN:', self.icon_theme)
+        try:
+            nsize = int(re.match('^\w+x(\d+)$', self.icon_theme).group(1))
+            imagelist_proc(self.imglist, IMAGELIST_SET_SIZE, (nsize, nsize))
+        except:
+            print('Tab Icons: incorrect theme name, must be nnnn_NNxNN:', self.icon_theme)
 
         self.icon_dir = os.path.join(app_path(APP_DIR_DATA), 'filetypeicons', self.icon_theme)
         if not os.path.isdir(self.icon_dir):
             self.icon_dir = os.path.join(app_path(APP_DIR_DATA), 'filetypeicons', 'vscode_16x16')
-
-        m = re.match(r'.+_(\d+)x\d+', self.icon_theme, 0)
-        size = int(m.groups(1)[0])
-        if size!=16:
-            imagelist_proc(self.imglist, IMAGELIST_SET_SIZE, (size, size))
 
         if self.icon_theme!='vscode_16x16':
             print('Tab Icons: using theme '+self.icon_theme)
