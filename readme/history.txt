@@ -1,4 +1,7 @@
 
+2020.03.20
+- fix: CudaText didn't show icons for files loaded on start (due to not fired on_lexer)
+
 2018.12.07
 + add: option for icons theme. Menu item "Options / Settings-plugins / Tab Icons / Config". Value in [tab_icons] must be the name of folder in "data/filetypeicons". Install any addon of kind "filetypeicons" to add such folder.
 

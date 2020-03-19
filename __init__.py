@@ -73,11 +73,7 @@ class Command:
 
     def on_open(self, ed_self):
 
-        #handle on_open only for pictures
-        fn = ed_self.get_filename()
-        if fn=='?':
-            self.update_icon(ed_self, True)
-
+        self.update_icon(ed_self, False)
 
     def config(self):
 
