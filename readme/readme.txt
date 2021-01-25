@@ -9,5 +9,5 @@ to the name of subfolder in "data/filetypeicons".
 for themes with bigger icon size (e.g. 24x24) you will need to adjust CudaText option
 "ui_tab_size_y", to make UI tabs height bigger.
 
-author: Alexey (CudaText)
+author: Alexey Torgashin (CudaText)
 license: MIT
