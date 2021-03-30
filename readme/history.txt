@@ -1,4 +1,7 @@
 
+2021.03.30
++ add: Per-document user-chosen icons (by @halfbrained)
+
 2020.03.20
 - fix: CudaText didn't show icons for files loaded on start (due to not fired on_lexer)
 

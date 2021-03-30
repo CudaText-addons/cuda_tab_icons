@@ -1,6 +1,6 @@
 [info]
 title=Tab Icons
-desc=Shows file-type icons on tab headers (same icons, which Project Manager shows)
+desc=Shows file-type icons on tab headers and per-document user-chosen icons.
 type=cudatext-plugin
 subdir=cuda_tab_icons
 homepage=https://github.com/CudaText-addons/cuda_tab_icons
@@ -11,6 +11,17 @@ section=events
 events=on_lexer,on_open
 
 [item2]
+section=commands
+caption=Tab Icons\Set document's tab icon...
+method=iconify_current
+
+[item3]
+section=commands
+caption=Tab Icons\Reset document's tab icon
+method=clear_current
+
+
+[item10]
 section=commands
 caption=Tab Icons\Config
 method=config
