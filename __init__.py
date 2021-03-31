@@ -159,14 +159,9 @@ class Command:
             return # option not enabled
 
         # display 'modified' character for pinned & collapsed
-        if state == EDSTATE_MODIFIED:
+        if state in [EDSTATE_MODIFIED, EDSTATE_PINNED]:
             if ed_self.get_filename() in self.misc_icon_map: # has custom icon
                 self.update_title(ed_self)
-
-        elif state == EDSTATE_PINNED:
-            if ed_self.get_filename() in self.misc_icon_map:
-                self.update_title(ed_self)
-
 
     def iconify_current(self):
 
