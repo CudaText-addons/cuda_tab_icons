@@ -134,7 +134,7 @@ class Command:
         modified = ed_self.get_prop(PROP_MODIFIED)
         title = ed_self.get_prop(PROP_TAB_TITLE)
 
-        if pinned: # collapse
+        if pinned  and  fn in self.misc_icon_map: # collapse
             title_stripped = title[1:] if title.startswith('*') else title
             if title != '*'  and  title != '':
                 self.saved_ed_titles[h] = title_stripped
@@ -216,8 +216,10 @@ class Command:
         path = ed.get_filename()
         if path  and path in self.misc_icon_map:
             del self.misc_icon_map[path]
+            if self.collapse_pinned:
+                self.update_title(ed)
 
-        ed.set_prop(PROP_TAB_ICON, -1)
+        self.update_icon(ed, False)
         self.save_options()
 
     def config(self):
