@@ -2,6 +2,9 @@ import os
 import re
 import json
 from cudatext import *
+from cudax_lib import get_translation
+
+_ = get_translation(__file__)  # I18N
 
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_tab_icons.json')
 icons_dirs = [
@@ -181,10 +184,20 @@ class Command:
             ic_aliased = [icon_aliases.get(t[0], t[0]) for t in ic_fns] # (name,dir)
             ic_names_noext = [os.path.splitext(name)[0] for name in ic_aliased] # no exts, just names
 
+            # add reset item
+            ic_names_noext.insert(0, _('(reset icon)'))
+
             doc_fn = os.path.basename(path)
             ic_ind = dlg_menu(DMENU_LIST, ic_names_noext, caption='Choose icon for:\n  '+doc_fn)
 
-            if ic_ind is not None:
+            if ic_ind is None: # canceled
+                return
+
+            if ic_ind == 0: # reset
+                self.clear_current()
+            else:
+                ic_ind -= 1
+
                 ic_name = ic_fns[ic_ind][0]
                 imind = self.icon_get_misc(ic_name)
                 ed.set_prop(PROP_TAB_ICON, imind)
