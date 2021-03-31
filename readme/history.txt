@@ -1,6 +1,8 @@
 
 2021.03.30
-+ add: Per-document user-chosen icons (by @halfbrained)
++ add: per-document user-chosen icons (by @halfbrained)
++ add: included some icons from GNOME Adwaita theme (by @halfbrained)
++ add: plugin option "collapse on pinned", for CudaText 1.130+, it hides tab caption when tab is "pinned" by user (by @halfbrained)
 
 2020.03.20
 - fix: CudaText didn't show icons for files loaded on start (due to not fired on_lexer)
