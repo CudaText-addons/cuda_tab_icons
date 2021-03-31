@@ -229,7 +229,7 @@ class Command:
         collapsed = {collapse_path(path):ic_name for path,ic_name in self.misc_icon_map.items()}
         cfg = {
             'icon_theme': self.icon_theme,
-            'show_lex_icons': self.show_lex_icons,
+            'show_lexer_icons': self.show_lex_icons,
             'collapse_pinned': self.collapse_pinned,
             'custom_icons_map': collapsed,
         }
@@ -243,7 +243,7 @@ class Command:
                 j = json.load(f)
 
             self.icon_theme = j.get('icon_theme', self.icon_theme)
-            self.show_lex_icons = j.get('show_lex_icons', self.show_lex_icons)
+            self.show_lex_icons = j.get('show_lexer_icons', self.show_lex_icons)
             self.collapse_pinned =  j.get('collapse_pinned', self.collapse_pinned)
 
             mp = j.get('custom_icons_map', self.misc_icon_map)
