@@ -6,12 +6,13 @@ from cudax_lib import get_translation
 
 _ = get_translation(__file__)  # I18N
 
+PLUGIN_NAME = "Tab Icons"
+
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_tab_icons.json')
 icons_dirs = [
     os.path.join(os.path.dirname(os.path.realpath(__file__)), 'misc_icons'), # plugin dir
     os.path.join(app_path(APP_DIR_DATA), 'tabsicons'), # data/tabsicons  dir
 ]
-
 
 USER_DIR = os.path.expanduser('~')
 
@@ -36,14 +37,14 @@ class Command:
             nsize = int(re.match('^\w+x(\d+)$', self.icon_theme).group(1))
             imagelist_proc(self.imglist, IMAGELIST_SET_SIZE, (nsize, nsize))
         except:
-            print('Tab Icons: incorrect theme name, must be nnnn_NNxNN:', self.icon_theme)
+            print(PLUGIN_NAME+_(': incorrect theme name, must be nnnn_NNxNN:'), self.icon_theme)
 
         self.icon_dir = os.path.join(app_path(APP_DIR_DATA), 'filetypeicons', self.icon_theme)
         if not os.path.isdir(self.icon_dir):
             self.icon_dir = os.path.join(app_path(APP_DIR_DATA), 'filetypeicons', 'vscode_16x16')
 
         if self.icon_theme!='vscode_16x16':
-            print('Tab Icons: using theme '+self.icon_theme)
+            print(PLUGIN_NAME+_(': using theme ')+self.icon_theme)
 
         self.icon_json = os.path.join(self.icon_dir, 'icons.json')
         self.icon_json_dict = json.loads(open(self.icon_json).read())
@@ -51,7 +52,8 @@ class Command:
         self.misc_icon_indexes = {}
         self.saved_ed_titles = {} # Editor handle -> original title
 
-        menu_proc('tab', MENU_ADD, command='cuda_tab_icons.iconify_current', caption='Set tab icon...')
+        ctx_name = _('Set tab icon...')
+        menu_proc('tab', MENU_ADD, command='cuda_tab_icons.iconify_current', caption=ctx_name)
 
 
     def icon_get(self, key, icon_def):
@@ -90,7 +92,7 @@ class Command:
 
         n = imagelist_proc(self.imglist, IMAGELIST_ADD, value=ic_path)
         if n is None:
-            print('Incorrect filetype icon:', ic_path)
+            print(PLUGIN_NAME+_(': Incorrect filetype icon:'), ic_path)
             n = icon_def
         cache[key] = n
         return n
@@ -188,7 +190,7 @@ class Command:
             ic_names_noext.insert(0, _('(reset icon)'))
 
             doc_fn = os.path.basename(path)
-            ic_ind = dlg_menu(DMENU_LIST, ic_names_noext, caption='Choose icon for:\n  '+doc_fn)
+            ic_ind = dlg_menu(DMENU_LIST, ic_names_noext, caption=_('Choose icon for: ')+doc_fn)
 
             if ic_ind is None: # canceled
                 return
@@ -255,7 +257,7 @@ class Command:
                     EDSTATE_PINNED
                 except NameError:
                     self.collapse_pinned = False
-                    print('NOTE: Tab Icons: update CudaText to enable tab pinning')
+                    print('NOTE:', PLUGIN_NAME+_(': update CudaText to enable tab pinning'))
 
 icon_aliases = {
     'appointment-soon.png': 'clock',
