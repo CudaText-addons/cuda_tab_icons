@@ -9,8 +9,8 @@ to the name of subfolder in "data/filetypeicons".
 for themes with bigger icon size (e.g. 24x24) you will need to adjust CudaText option
 "ui_tab_size_y", to make UI tabs height bigger.
 
-adds comamnds to editor's tab context menu to set custom document-specific icon 
-from serveral existing. additional icons can be added to the 'icons' directory in 
+adds commands to editor's tab context menu to set custom document-specific icon 
+from several existing. additional icons can be added to the 'icons' directory in 
 plugin's folder: py/cuda_tab_icons, dimensions should be same as of the theme.
 
 also custom icons can be set or reset from the main menu:
