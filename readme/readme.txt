@@ -25,8 +25,8 @@ JSON format has options:
 - "icon_theme": file-type icons, it's the name of subfolder in "data/filetypeicons".
   for themes with icon size >16x16 you need to adjust CudaText option "ui_tab_size_y".
 - "show_lexer_icons" (bool): allows to show file-type icons per-lexer.
-- "collapse_pinned" (bool): allows to auto-hide captions of UI-tabs which
-  have custom icon assigned. works in CudaText 1.130+.
+- "collapse_pinned" (bool): allows to auto-hide captions of "pinned" UI-tabs.
+  needs CudaText 1.130+. only for UI-tabs which have custom icons assigned.
 
 
 about
