@@ -34,4 +34,6 @@ about
 authors:
   Alexey Torgashin (CudaText)
   Shovel, https://github.com/halfbrained
+icons from:
+  GNOME Adwaita, https://github.com/GNOME/adwaita-icon-theme
 license: MIT
