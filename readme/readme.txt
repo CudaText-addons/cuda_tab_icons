@@ -1,22 +1,37 @@
 plugin for CudaText.
-it shows file-type-icons on UI tab headers. icons are loaded from themes, from subfolder
-"data/filetypeicons". by default, preinstalled theme "vscode_16x16" is used,
-but you can use any other theme, after you install it in Addon Manager.
-to set another theme, call menu item "Options / Settings-plugins / Tab Icons / Config",
-in opened file plugins.ini find section [tab_icons], and change value of option there
-to the name of subfolder in "data/filetypeicons".
-
-for themes with bigger icon size (e.g. 24x24) you will need to adjust CudaText option
-"ui_tab_size_y", to make UI tabs height bigger.
-
-adds commands to editor's tab context menu to set custom document-specific icon
-from several existing. additional icons can be added to the directory:
-CudaText/data/tabsicons
-dimensions should be same as of the theme.
-
-also custom icons can be set or reset from the main menu:
-Plugins > Tab Icons
+it shows file-type-icons on UI tab headers.
+icons are loaded from theme, from subfolder "data/filetypeicons".
+by default, preinstalled theme "vscode_16x16" is used, but you can use another
+theme, after you install it in Addon Manager, see "filetypeicons" addon kind.
 
 
-author: Alexey Torgashin (CudaText)
+commands
+--------
+1) plugin adds menu item to UI-tab context menu: "Set tab icon...".
+this sets custom document-specific icon, from several existing icons.
+icons are searched in:
+- plugin folder's subfolder,
+- in [CudaText]/data/tabsicons.
+icon size should be same as of the theme (option "icon_theme").
+
+2) custom icons can be set/reset from the main menu "Plugins / Tab Icons".
+
+
+configuration
+-------------
+call menu item "Options / Settings-plugins / Tab Icons / Config", config-file in
+JSON format has options:
+
+- "icon_theme": file-type icons, it's the name of subfolder in "data/filetypeicons".
+  for themes with icon size >16x16 you need to adjust CudaText option "ui_tab_size_y".
+- "show_lexer_icons" (bool): allows to show file-type icons per-lexer.
+- "collapse_pinned" (bool): allows to auto-hide captions of UI-tabs which
+  have custom icon assigned. works in CudaText 1.130+.
+
+
+about
+-----
+authors:
+  Alexey Torgashin (CudaText)
+  Shovel, https://github.com/halfbrained
 license: MIT
