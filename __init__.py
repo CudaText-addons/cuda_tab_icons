@@ -58,6 +58,12 @@ class Command:
 
     def icon_get(self, key, icon_def):
 
+        # support variations of JS lexer
+        if 'JavaScript' in key:
+            key = 'JavaScript'
+        elif 'TypeScript' in key:
+            key = 'TypeScript'
+
         s = self.icon_indexes.get(key, None)
         if s:
             return s

@@ -1,4 +1,7 @@
 
+2021.09.15
++ add: better support variations of JavaScript and TypeScript lexers
+
 2021.03.30
 + add: per-document user-chosen icons (by @halfbrained)
 + add: included some icons from GNOME Adwaita theme (by @halfbrained)
