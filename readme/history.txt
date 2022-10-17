@@ -1,4 +1,7 @@
 
+2022.10.17
++ add: support changing of icon_map from other plugins (e.g. CudaExt needs this)
+
 2021.09.15
 + add: better support variations of JavaScript and TypeScript lexers
 

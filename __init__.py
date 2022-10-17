@@ -16,6 +16,10 @@ icons_dirs = [
 
 USER_DIR = os.path.expanduser('~')
 
+# path -> icon name
+# must be global var, to allow to change it from other plugins
+icon_map = {} 
+
 def collapse_path(path):
     if (path + os.sep).startswith(USER_DIR + os.sep):
         path = path.replace(USER_DIR, '~', 1)
@@ -28,7 +32,6 @@ class Command:
         self.show_lex_icons = True
         self.collapse_pinned = False
 
-        self.misc_icon_map = {} # path -> icon name
         self.imglist = app_proc(PROC_GET_TAB_IMAGELIST, '')
 
         self.load_options()
@@ -112,8 +115,8 @@ class Command:
         if is_picture:
             lexer = '_img'
         # document has custom icon
-        elif filename and filename in self.misc_icon_map:
-            ic_name = self.misc_icon_map[filename]
+        elif filename and filename in icon_map:
+            ic_name = icon_map[filename]
             icon = self.icon_get_misc(ic_name)
         else:
             lexer = ed_self.get_prop(PROP_LEXER_FILE)
@@ -140,7 +143,7 @@ class Command:
         modified = ed_self.get_prop(PROP_MODIFIED)
         title = ed_self.get_prop(PROP_TAB_TITLE)
 
-        if pinned  and  fn in self.misc_icon_map: # collapse
+        if pinned  and  fn in icon_map: # collapse
             title_stripped = title[1:] if title.startswith('*') else title
             if title != '*'  and  title != '':
                 self.saved_ed_titles[h] = title_stripped
@@ -171,7 +174,7 @@ class Command:
 
         # display 'modified' character for pinned & collapsed
         if state in [EDSTATE_MODIFIED, EDSTATE_PINNED]:
-            if ed_self.get_filename() in self.misc_icon_map: # has custom icon
+            if ed_self.get_filename() in icon_map: # has custom icon
                 self.update_title(ed_self)
 
     def iconify_current(self):
@@ -210,7 +213,7 @@ class Command:
                 imind = self.icon_get_misc(ic_name)
                 ed.set_prop(PROP_TAB_ICON, imind)
 
-                self.misc_icon_map[path] = ic_name
+                icon_map[path] = ic_name
                 self.save_options()
 
                 if self.collapse_pinned:
@@ -220,8 +223,8 @@ class Command:
     def clear_current(self):
 
         path = ed.get_filename()
-        if path  and path in self.misc_icon_map:
-            del self.misc_icon_map[path]
+        if path  and path in icon_map:
+            del icon_map[path]
             if self.collapse_pinned:
                 self.update_title(ed)
 
@@ -236,7 +239,7 @@ class Command:
 
     def save_options(self):
 
-        collapsed = {collapse_path(path):ic_name for path,ic_name in self.misc_icon_map.items()}
+        collapsed = {collapse_path(path):ic_name for path,ic_name in icon_map.items()}
         cfg = {
             'icon_theme': self.icon_theme,
             'show_lexer_icons': self.show_lex_icons,
@@ -248,6 +251,7 @@ class Command:
             json.dump(cfg, f, indent=2)
 
     def load_options(self):
+        global icon_map
         if os.path.exists(fn_config):
             with open(fn_config, 'r', encoding='utf-8') as f:
                 j = json.load(f)
@@ -256,8 +260,8 @@ class Command:
             self.show_lex_icons = j.get('show_lexer_icons', self.show_lex_icons)
             self.collapse_pinned =  j.get('collapse_pinned', self.collapse_pinned)
 
-            mp = j.get('custom_icons_map', self.misc_icon_map)
-            self.misc_icon_map = {os.path.expanduser(path):ic_name for path,ic_name in mp.items()}
+            mp = j.get('custom_icons_map', icon_map)
+            icon_map = {os.path.expanduser(path):ic_name for path,ic_name in mp.items()}
 
             # check if supported new api, disable usage if not
             if self.collapse_pinned:
