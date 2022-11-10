@@ -1,3 +1,5 @@
+2022.11.10
++ add: show correct icons for tabs containing pictures and binary viewer
 
 2022.10.17
 + add: support changing of icon_map from other plugins (e.g. CudaExt needs this)
