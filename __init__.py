@@ -107,15 +107,20 @@ class Command:
         return n
 
 
-    def update_icon(self, ed_self, is_picture):
+    def update_icon(self, ed_self):
 
-        filename = ed_self.get_filename()
         icon = -1
         lexer = None
-        if is_picture:
+        filename = ed_self.get_filename()
+        kind = ed_self.get_prop(PROP_KIND, '')
+
+        if kind=='pic':
             lexer = '_img'
+        elif kind=='bin':
+            lexer = '_bin'
         # document has custom icon
         elif filename and filename in icon_map:
+            #print('icons: icon_map')
             ic_name = icon_map[filename]
             icon = self.icon_get_misc(ic_name)
         else:
@@ -126,6 +131,7 @@ class Command:
 
         if self.show_lex_icons  and  lexer:
             icon = self.icon_get(lexer, icon)
+            #print('icons: icon='+str(icon))
 
         ed_self.set_prop(PROP_TAB_ICON, icon)
 
@@ -161,11 +167,11 @@ class Command:
 
     def on_lexer(self, ed_self):
 
-        self.update_icon(ed_self, False)
+        self.update_icon(ed_self)
 
     def on_open(self, ed_self):
 
-        self.update_icon(ed_self, False)
+        self.update_icon(ed_self)
 
     def on_state_ed(self, ed_self, state):
 
@@ -228,7 +234,7 @@ class Command:
             if self.collapse_pinned:
                 self.update_title(ed)
 
-        self.update_icon(ed, False)
+        self.update_icon(ed)
         self.save_options()
 
     def config(self):
