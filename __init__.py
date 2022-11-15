@@ -7,6 +7,7 @@ from cudax_lib import get_translation
 _ = get_translation(__file__)  # I18N
 
 PLUGIN_NAME = "Tab Icons"
+USER_DIR = os.path.expanduser('~')
 
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_tab_icons.json')
 icons_dirs = [
@@ -14,7 +15,7 @@ icons_dirs = [
     os.path.join(app_path(APP_DIR_DATA), 'tabsicons'), # data/tabsicons  dir
 ]
 
-USER_DIR = os.path.expanduser('~')
+ed_ctx = Editor(1) if app_api_version()>='1.0.435' else ed
 
 # path -> icon name
 # must be global var, to allow to change it from other plugins
@@ -181,7 +182,7 @@ class Command:
 
     def iconify_current(self):
 
-        path = ed.get_filename()
+        path = ed_ctx.get_filename()
         if path:
             # get list of (icon, folder)
             ic_fns = {} #  filename -> directory
@@ -213,13 +214,13 @@ class Command:
 
                 ic_name = ic_fns[ic_ind][0]
                 imind = self.icon_get_misc(ic_name)
-                ed.set_prop(PROP_TAB_ICON, imind)
+                ed_ctx.set_prop(PROP_TAB_ICON, imind)
 
                 icon_map[path] = ic_name
                 self.save_options()
 
                 if self.collapse_pinned:
-                    self.update_title(ed)
+                    self.update_title(ed_ctx)
 
 
     def clear_current(self):
