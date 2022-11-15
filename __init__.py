@@ -150,17 +150,13 @@ class Command:
         title = ed_self.get_prop(PROP_TAB_TITLE)
 
         if pinned  and  fn in icon_map: # collapse
-            title_stripped = title[1:] if title.startswith('*') else title
-            if title != '*'  and  title != '':
-                self.saved_ed_titles[h] = title_stripped
-                new_title = ''
-            else: # already collapsed, updating 'modified'
-                new_title = title_stripped
+            if title not in ['', ' ']:
+                self.saved_ed_titles[h] = title
+                new_title = ' ' # not empty: empty means 'remove custom title'
+            else: # already collapsed
+                new_title = title
         else: # return title
             new_title = self.saved_ed_titles.get(h, os.path.basename(fn))
-
-        if modified:
-            new_title = '*' + new_title
 
         ed_self.set_prop(PROP_TAB_TITLE, new_title)
 
