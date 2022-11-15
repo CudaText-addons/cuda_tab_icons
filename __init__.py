@@ -208,7 +208,7 @@ class Command:
                 return
 
             if ic_ind == 0: # reset
-                self.clear_current()
+                self.clear_current(ed_ctx)
             else:
                 ic_ind -= 1
 
@@ -223,15 +223,15 @@ class Command:
                     self.update_title(ed_ctx)
 
 
-    def clear_current(self):
+    def clear_current(self, ed_self):
 
-        path = ed.get_filename()
+        path = ed_self.get_filename()
         if path  and path in icon_map:
             del icon_map[path]
             if self.collapse_pinned:
-                self.update_title(ed)
+                self.update_title(ed_self)
 
-        self.update_icon(ed)
+        self.update_icon(ed_self)
         self.save_options()
 
     def config(self):
