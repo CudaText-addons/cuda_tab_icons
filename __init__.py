@@ -15,8 +15,6 @@ icons_dirs = [
     os.path.join(app_path(APP_DIR_DATA), 'tabsicons'), # data/tabsicons  dir
 ]
 
-ed_ctx = Editor(1) if app_api_version()>='1.0.435' else ed
-
 # path -> icon name
 # must be global var, to allow to change it from other plugins
 icon_map = {} 
@@ -57,7 +55,7 @@ class Command:
         self.saved_ed_titles = {} # Editor handle -> original title
 
         ctx_name = _('Set tab icon...')
-        menu_proc('tab', MENU_ADD, command='cuda_tab_icons.iconify_current', caption=ctx_name)
+        menu_proc('tab', MENU_ADD, command='cuda_tab_icons.iconify_context', caption=ctx_name)
 
 
     def icon_get(self, key, icon_def):
@@ -181,6 +179,15 @@ class Command:
                 self.update_title(ed_self)
 
     def iconify_current(self):
+
+        return self.iconify_ex(ed)
+
+    def iconify_context(self):
+
+        ed_ctx = Editor(1) if app_api_version()>='1.0.435' else ed
+        return self.iconify_ex(ed_ctx)
+
+    def iconify_ex(self, ed_ctx):
 
         path = ed_ctx.get_filename()
         if path:

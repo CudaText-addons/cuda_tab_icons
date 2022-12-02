@@ -1,3 +1,6 @@
+2022.12.02
+- fix: crash on calling 'plugins / tab icons / set document's tab icon'
+
 2022.11.15
 + add: on CudaText 1.176.5+, plugin correctly handles tab-context-menu command for passive tabs
 
