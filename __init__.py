@@ -124,6 +124,9 @@ class Command:
             icon = self.icon_get_misc(ic_name)
         else:
             lexer = ed_self.get_prop(PROP_LEXER_FILE)
+            #support none lexer
+            if not lexer:
+                lexer = '_'
             #support lite lexers
             if lexer.endswith(' ^'):
                 lexer = lexer[:-2]
