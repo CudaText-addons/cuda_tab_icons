@@ -36,7 +36,7 @@ class Command:
         self.load_options()
 
         try:
-            nsize = int(re.match('^\w+x(\d+)$', self.icon_theme).group(1))
+            nsize = int(re.match(r'^\w+x(\d+)$', self.icon_theme).group(1))
             imagelist_proc(self.imglist, IMAGELIST_SET_SIZE, (nsize, nsize))
         except:
             print(PLUGIN_NAME+_(': incorrect theme name, must be nnnn_NNxNN:'), self.icon_theme)
