@@ -1,3 +1,6 @@
+2026.07.30
++ add: display icons along with descriptions
+
 2022.12.02
 - fix: crash on calling 'plugins / tab icons / set document's tab icon'
 
