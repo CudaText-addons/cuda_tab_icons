@@ -1,5 +1,5 @@
 2026.07.30
-+ add: display icons along with descriptions
++ add: rework menu-dialog to choose custom icon for ui-tab, now it shows icons along with descriptions (by @ildarkhasanshin)
 
 2022.12.02
 - fix: crash on calling 'plugins / tab icons / set document's tab icon'
