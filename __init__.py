@@ -208,11 +208,8 @@ class Command:
             ic_aliased = [icon_aliases.get(t[0], t[0]) for t in ic_fns] # (name,dir)
             ic_names_noext = [os.path.splitext(name)[0] for name in ic_aliased] # no exts, just names
 
-            # add reset item
-            ic_names_noext.insert(0, _('(reset icon)'))
-
             doc_fn = os.path.basename(path)
-            ic_ind = dlg_menu(DMENU_LIST, ic_names_noext, caption=_('Choose icon for: ')+doc_fn)
+            ic_ind = self.dlg_choose_icon(ic_fns, ic_names_noext, doc_fn)
 
             if ic_ind is None: # canceled
                 return
@@ -231,6 +228,71 @@ class Command:
 
                 if self.collapse_pinned:
                     self.update_title(ed_ctx)
+
+    def dlg_choose_icon(self, ic_fns, ic_names_noext, doc_fn):
+        """ Shows a custom dialog with a treeview listing all available icons
+            (each row shows its actual picture, not just its name).
+            Returns 0-based index into ic_fns+1 (0 = "reset icon"),
+            same convention as the old dlg_menu-based version, or None if canceled. """
+
+        result = {'index': None}
+
+        h = dlg_proc(0, DLG_CREATE)
+
+        item_map = {} # tree item id -> our 0-based result index
+
+        def do_accept(*args, **vargs):
+            sel = tree_proc(h_tree, TREE_ITEM_GET_SELECTED)
+            if sel:
+                result['index'] = item_map.get(sel)
+            dlg_proc(h, DLG_HIDE)
+
+        def do_key(*args, **vargs):
+            # look for the Enter key-code (13) anywhere in the callback args,
+            # since the exact position/kwarg name isn't documented
+            for v in list(args)+list(vargs.values()):
+                if v == 13:
+                    do_accept()
+                    return
+
+        dlg_proc(h, DLG_PROP_SET, {
+            'cap': _('Choose icon for: ')+doc_fn,
+            'w': 340,
+            'h': 440,
+            'keypreview': True,
+            'on_key_down': do_key,
+            })
+
+        # treeview: fills the whole dialog; double-click accepts the choice,
+        # Escape/closing the dialog cancels (result stays None)
+        n = dlg_proc(h, DLG_CTL_ADD, 'treeview')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'tree',
+            'align': ALIGN_CLIENT,
+            'on_click_dbl': do_accept,
+            })
+        h_tree = dlg_proc(h, DLG_CTL_HANDLE, index=n)
+        h_iml = tree_proc(h_tree, TREE_GET_IMAGELIST)
+
+        # item 0: reset icon (no picture)
+        item0 = tree_proc(h_tree, TREE_ITEM_ADD, 0, -1, _('(reset icon)'), -1, '')
+        item_map[item0] = 0
+
+        for i, ((fname, icons_dir), name) in enumerate(zip(ic_fns, ic_names_noext)):
+            ic_path = os.path.join(icons_dir, fname)
+            idx = imagelist_proc(h_iml, IMAGELIST_ADD, value=ic_path)
+            if idx is None:
+                idx = -1
+            item = tree_proc(h_tree, TREE_ITEM_ADD, 0, -1, name, idx, '')
+            item_map[item] = i+1
+
+        tree_proc(h_tree, TREE_ITEM_SELECT, item0)
+
+        dlg_proc(h, DLG_CTL_FOCUS, index=n)
+        dlg_proc(h, DLG_SHOW_MODAL)
+        dlg_proc(h, DLG_FREE)
+
+        return result['index']
 
     def clear_current(self):
 
