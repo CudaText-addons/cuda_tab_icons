@@ -1,4 +1,5 @@
-2026.07.30
+2026.08.01
++ add: add many new icons to plugin's subfolder
 + add: rework menu-dialog to choose custom icon for ui-tab, now it shows icons along with descriptions (by @ildarkhasanshin)
 
 2022.12.02
